@@ -1,22 +1,16 @@
 {
-    "name": "tareq1988/wp-eloquent",
-    "description": "Eloquent ORM for WordPress",
+    "name": "wpe/wp-eloquent",
+    "description": "Eloquent ORM for WordPress. Forked from tareq1988/wp-eloquent",
     "keywords": ["wordpress", "plugin", "orm", "eloquent", "sql"],
-    "homepage": "https://github.com/tareq1988/wp-eloquent",
+    "homepage": "https://github.com/deliciousbrains/wp-eloquent",
     "require": {
-        "illuminate/database": "^5.4",
-        "illuminate/pagination": "^5.4"
+        "illuminate/database": "^6.2",
+        "illuminate/pagination": "^6.2"
     },
     "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Tareq Hasan",
-            "email": "tareq@wedevs.com"
-        }
-    ],
     "autoload" : {
       "psr-4" : {
-        "WeDevs\\ORM\\": "src/"
+        "WPEngine\\ORM\\": "src/"
       }
     }
 }

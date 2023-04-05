@@ -1,9 +1,9 @@
 <?php
 
-namespace WeDevs\ORM\WP;
+namespace WPEngine\ORM\WP;
 
 
-use WeDevs\ORM\Eloquent\Model;
+use WPEngine\ORM\Eloquent\Model;
 
 class Comment extends Model
 {

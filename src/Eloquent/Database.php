@@ -1,5 +1,5 @@
 <?php
-namespace WeDevs\ORM\Eloquent;
+namespace WPEngine\ORM\Eloquent;
 
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Query\Grammars\Grammar;
@@ -73,7 +73,7 @@ class Database implements ConnectionInterface
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    public function table($table)
+    public function table($table, $as = null)
     {
         $processor = $this->getPostProcessor();
 

@@ -1,5 +1,5 @@
 <?php
-namespace WeDevs\ORM\Eloquent;
+namespace WPEngine\ORM\Eloquent;
 
 use Illuminate\Database\ConnectionResolverInterface;
 

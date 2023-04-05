@@ -1,9 +1,9 @@
 <?php
 
-namespace WeDevs\ORM\Eloquent\Facades;
+namespace WPEngine\ORM\Eloquent\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use WeDevs\ORM\Eloquent\Database;
+use WPEngine\ORM\Eloquent\Database;
 
 /**
  * @see \Illuminate\Database\DatabaseManager
