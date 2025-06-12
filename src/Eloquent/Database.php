@@ -1,4 +1,5 @@
 <?php
+
 namespace WPEngine\ORM\Eloquent;
 
 use Illuminate\Database\ConnectionInterface;
@@ -96,17 +97,19 @@ class Database implements ConnectionInterface
         return new Expression($value);
     }
 
-	/**
-	 * Get a new query builder instance.
-	 *
-	 * @return \Illuminate\Database\Query\Builder
-	 */
-	public function query()
-	{
-		return new Builder(
-			$this, $this->getQueryGrammar(), $this->getPostProcessor()
-		);
-	}
+    /**
+     * Get a new query builder instance.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function query()
+    {
+        return new Builder(
+            $this,
+            $this->getQueryGrammar(),
+            $this->getPostProcessor()
+        );
+    }
 
     /**
      * Run a select statement and return a single result.
@@ -125,7 +128,7 @@ class Database implements ConnectionInterface
         $result = $this->db->get_row($query);
 
         if ($result === false || $this->db->last_error)
-            throw new QueryException($query, $bindings, new \Exception($this->db->last_error));
+            throw new QueryException($this->getConfig('name'), $query, $bindings, new \Exception($this->db->last_error));
 
         return $result;
     }
@@ -147,7 +150,7 @@ class Database implements ConnectionInterface
         $result = $this->db->get_results($query);
 
         if ($result === false || $this->db->last_error)
-            throw new QueryException($query, $bindings, new \Exception($this->db->last_error));
+            throw new QueryException($this->getConfig('name'),$query, $bindings, new \Exception($this->db->last_error));
 
         return $result;
     }
@@ -161,10 +164,7 @@ class Database implements ConnectionInterface
      * @param  bool  $useReadPdo
      * @return \Generator
      */
-    public function cursor($query, $bindings = [], $useReadPdo = true)
-    {
-
-    }
+    public function cursor($query, $bindings = [], $useReadPdo = true) {}
 
     /**
      * A hacky way to emulate bind parameters into SQL query
@@ -216,7 +216,7 @@ class Database implements ConnectionInterface
         $result = $this->db->query($new_query);
 
         if ($result === false || $this->db->last_error)
-            throw new QueryException($new_query, $bindings, new \Exception($this->db->last_error));
+            throw new QueryException($this->getConfig('name'),$new_query, $bindings, new \Exception($this->db->last_error));
 
         return (array) $result;
     }
@@ -290,7 +290,7 @@ class Database implements ConnectionInterface
         $result = $this->db->query($new_query);
 
         if ($result === false || $this->db->last_error)
-            throw new QueryException($new_query, $bindings, new \Exception($this->db->last_error));
+            throw new QueryException($this->getConfig('name'),$new_query, $bindings, new \Exception($this->db->last_error));
 
         return intval($result);
     }
@@ -355,7 +355,7 @@ class Database implements ConnectionInterface
             $data = $callback();
             $this->commit();
             return $data;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -469,5 +469,37 @@ class Database implements ConnectionInterface
     public function getConfig($option = null)
     {
         return Arr::get($this->config, $option);
+    }
+
+    /**
+     * Run a scalar select statement against the database.
+     *
+     * @param  string $query
+     * @param  array $bindings
+     * @param  bool $useReadPdo
+     * @throws QueryException
+     *
+     * @return mixed
+     */
+    public function scalar($query, $bindings = [], $useReadPdo = true)
+    {
+        $query = $this->bind_params($query, $bindings);
+
+        $result = $this->db->get_var($query);
+
+        if ($result === false || $this->db->last_error)
+            throw new QueryException($this->getConfig('name'),$query, $bindings, new \Exception($this->db->last_error));
+
+        return $result;
+    }
+
+    /**
+     * Get the database name.
+     *
+     * @return string|null
+     */
+    public function getDatabaseName()
+    {
+        return $this->getConfig('name');
     }
 }
